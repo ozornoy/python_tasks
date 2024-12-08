@@ -1,0 +1,40 @@
+Спроектировать приложение для чтения книг:
+
+1. Библиотека
+    - Только 1 активная книга в текущий момент времени
+    - Помнит последнюю страницу книги
+2. Книги
+
+
+Сущности:
+Library(
+    books: List[Book]
+    current_book: Book
+)
+Book(
+    id: int,
+    name: str,
+    author: str,
+    pages: List[Page],
+    current_page: int
+    active_status: bool
+)
+Page(
+    text: str,
+    number: int
+)
+Reader(
+    id: int,
+    name: str,
+)
+
+Взаимодействия:
+Reader -> добавляет в библиотеку книгу(status=non_active, current_page=0)
+Reader -> удаляет книгу из библиотеки
+Reader -> закрывает книгу(status=non_active, current_page=current_page)
+Reader -> открывает книгу на текущей странице(status=active, current_page=current_page) -> если была открыта книга до жтого, то закрывает ее
+Book -> получить id, name, author, current_page
+Book -> перелистyть страницу на следующую, предыдущую, нужную
+
+
+
