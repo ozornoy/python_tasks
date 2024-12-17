@@ -1,43 +1,28 @@
-from third_task.basket import Basket
-from third_task.order import Order
+from basket import Basket
+from orders import Orders
+from interfaces import IBasket, IOrders
 
 
 class Customer:
-    def __init__(self, fio: str, email: str, phone: str):
+    def __init__(self, fio: str, email: str, phone: str, basket: IBasket = None,
+                 orders: IOrders = None):
         self.fio = fio
         self.email = email
         self.phone = phone
-        self.basket = Basket()
-        self.orders = []
+        self.basket = basket or Basket()
+        self.orders = orders or Orders()
 
-    def add_to_basket(self, *products):
-        for product in products:
-            self.basket.products.append(product)
+    def add_products_to_basket(self, *products):
+        self.basket.add_products(*products)
 
-    def remove_from_basket(self, product):
-        try:
-            self.basket.products.remove(product)
-        except ValueError:
-            print("Товар не был найден в корзине")
+    def remove_product_from_basket(self, product):
+        self.basket.remove_product(product)
 
     def clear_basket(self):
-        self.basket.products = []
+        self.basket.clear()
 
     def create_order(self):
-        order = None
-        if len(self.basket.products) == 0:
-            print("Корзина пуста. Для оформления заказа добавь товар в корзину")
-        else:
-            order = Order(self.basket.products)
-            self.orders.append(order)
-        return order
+        return self.orders.create_order(self.basket)
 
     def pay_for_order(self, order):
-        found_order = next(
-            (cusotmer_order for cusotmer_order in self.orders if order == cusotmer_order), None
-        )
-        if not found_order:
-            print(f"Заказ с id:{order.id} не найден")
-        else:
-            found_order.paid_status = True
-            self.basket.products = []
+        self.orders.pay_for_order(order)

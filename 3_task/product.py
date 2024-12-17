@@ -1,21 +1,7 @@
-import uuid
-from abc import ABC, abstractmethod
+from interfaces import IProduct
 
 
-class Product(ABC):
-    def __init__(self, name: str, product_type: str, color: str, price: int):
-        self.id = uuid.uuid4()
-        self.name = name
-        self.product_type = product_type
-        self.color = color
-        self.price = price
-
-    @abstractmethod
-    def get_description(self):
-        pass
-
-
-class Iphone(Product):
+class Iphone(IProduct):
     def __init__(self, name: str, color: str, price: int, storage: int):
         super().__init__(name, "Iphone", color, price)
         self.storage = storage
@@ -27,7 +13,7 @@ class Iphone(Product):
         )
 
 
-class ComputerMouse(Product):
+class ComputerMouse(IProduct):
     def __init__(self, name: str, color: str, price: int, dpi: int):
         super().__init__(name, "Computer Mouse", color, price)
         self.dpi = dpi
