@@ -40,7 +40,7 @@ class TaskManager:
         if task_id in self.tasks:
             self.tasks[task_id]["toggled"] = not self.tasks[task_id]["toggled"]
         else:
-            ValueError(f"Задача с id: {task_id} не найдена")
+            raise ValueError(f"Задача с id: {task_id} не найдена")
 
 
 task_manager = TaskManager()
@@ -57,4 +57,6 @@ print(task_manager.get_task(3))
 print(task_manager.get_task(3)["toggled"])
 task_manager.toggle_task(3)
 task_manager.delete_task(4)
+task_manager.delete_task(4)
+task_manager.toggle_task(4)
 print(task_manager.tasks)
